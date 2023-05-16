@@ -80,40 +80,7 @@ def menu():
         action_choice = input(f"Choice: ")  # player choices are inputted
 
         if (action_choice.lower() == 'walk') or (action_choice.lower() == 'w'):  # if the player types: walk or w
-            print(f"Where would you like to go?")  # prints question
-            if row != 0:
-                print(f" * North")  # prints north as an option if the row does not equal to 0
-            if row != MaxRow:
-                print(f" * South")  # prints south as an option if the row does not exceed 2
-            if col != MaxCol:
-                print(f" * East")  # print east as an option if the column does not exceed 2
-            if col != 0:
-                print(f" * West")  # print west as an option if the column does not equal to 0
-            print(f" * Back")
-
-            # player can input their desired direction with in the list above
-            movement_choice = input(f"Choice: ")  # player movement choices are inputted
-
-            # if the movement choice was north or n the player will subtract 1 from the row in the array
-            if (movement_choice.lower() == 'north') or (movement_choice.lower() == "n") and row > 0:
-                row -= 1
-                break
-            # if the movement choice was south or s the player will add 1 unit to the row in the array
-            elif (movement_choice.lower() == 'south') or (movement_choice.lower() == "s") and row < MaxRow:
-                row += 1
-                break
-            # if the movement choice was east or e the player will add 1 unit to the column in the array
-            elif (movement_choice.lower() == 'east') or (movement_choice.lower() == "e") and col < MaxCol:
-                col += 1
-                break
-            # if the movement choice was north or n the player will subtract 1 from the column in the array
-            elif (movement_choice.lower() == 'west') or (movement_choice.lower() == "w") and col > 0:
-                col -= 1
-                break
-            elif movement_choice.lower() == 'back' or 'b':  # type back to back out and return to main menu
-                return
-            else:
-                print(f"Sorry cant go that way!")  # any other movement input would print invalid option message
+            possible_directions()
 
         elif (action_choice.lower() == 'inventory') or (action_choice.lower() == 'i'):  # if player types inventory or i
             inventory()  # run inventory function
@@ -130,6 +97,7 @@ def menu():
 
         else:
             print("Invalid Option")  # if the player inputs an invalid option
+            return
 
 
 def messages():
@@ -190,6 +158,21 @@ def messages():
     print(f"Goodbye :( .")  # when the loop ends it prints the farewell message
 
 
+def possible_directions():
+    while True:
+        print(f"Where would you like to go?")  # prints question
+        if row != 0:
+            print(f" * North")  # prints north as an option if the row does not equal to 0
+        if row != MaxRow:
+            print(f" * South")  # prints south as an option if the row does not exceed 2
+        if col != MaxCol:
+            print(f" * East")  # print east as an option if the column does not exceed 2
+        if col != 0:
+            print(f" * West")  # print west as an option if the column does not equal to 0
+        print(f" * Back")
+        movement()
+
+
 def inventory():
     """Prints the inventory"""
     print(f"Current Inventory: ")  # Current Inventory message
@@ -213,6 +196,40 @@ def menu_options():
     print('* Walk')  # print walk
     print('* Inventory')  # print inventory
     print('* Quit')  # print quit
+
+
+def movement():
+    global row, col, MaxRow, MaxCol, playing
+    while playing:
+        # player can input their desired direction with in the list above
+        movement_choice = input(f"Choice move: ")  # player movement choices are inputted
+
+        # if the movement choice was north or n the player will subtract 1 from the row in the array
+        if (movement_choice.lower() == 'north') or (movement_choice.lower() == "n") and row > 0:
+            row -= 1
+            messages()
+            break
+        # if the movement choice was south or s the player will add 1 unit to the row in the array
+        elif (movement_choice.lower() == 'south') or (movement_choice.lower() == "s") and row < MaxRow:
+            row += 1
+            messages()
+            break
+        # if the movement choice was east or e the player will add 1 unit to the column in the array
+        elif (movement_choice.lower() == 'east') or (movement_choice.lower() == "e") and col < MaxCol:
+            col += 1
+            messages()
+            break
+        # if the movement choice was north or n the player will subtract 1 from the column in the array
+        elif (movement_choice.lower() == 'west') or (movement_choice.lower() == "w") and col > 0:
+            col -= 1
+            messages()
+            break
+        elif movement_choice.lower() == 'back' or 'b':  # type back to back out and return to main menu
+            messages()
+
+        else:
+            print(f"Sorry cant go that way!")  # any other movement input would print invalid option message
+            possible_directions()
 
 
 while playing:  # starts main loop
